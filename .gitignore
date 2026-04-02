@@ -45,6 +45,7 @@ report/main.xdv
 report/page*_preview*.png
 
 scripts/make_report_assets.py
+src/ann_hw2/reporting.py
 
 main.aux
 main.bbl

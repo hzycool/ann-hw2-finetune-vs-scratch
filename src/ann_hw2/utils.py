@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import copy
 import json
 import random
 import time
@@ -38,13 +39,36 @@ def dump_yaml(path: str | Path, payload: dict) -> None:
 
 
 def merge_dicts(base: dict, override: dict) -> dict:
-    result = dict(base)
+    result = copy.deepcopy(base)
     for key, value in override.items():
         if isinstance(value, dict) and isinstance(result.get(key), dict):
             result[key] = merge_dicts(result[key], value)
         else:
             result[key] = value
     return result
+
+
+def resolve_project_paths(config: dict, root_dir: str | Path) -> dict:
+    root_path = Path(root_dir)
+
+    def _resolve(raw_path: str) -> str:
+        path = Path(raw_path)
+        if path.is_absolute():
+            return str(path)
+        return str(root_path / path)
+
+    if "dataset" in config and "cache_dir" in config["dataset"]:
+        config["dataset"]["cache_dir"] = _resolve(config["dataset"]["cache_dir"])
+
+    if "output" in config and "root_dir" in config["output"]:
+        config["output"]["root_dir"] = _resolve(config["output"]["root_dir"])
+
+    if "report" in config:
+        for key in ("summary_dir", "latex_dir"):
+            if key in config["report"]:
+                config["report"][key] = _resolve(config["report"][key])
+
+    return config
 
 
 def save_log_csv(path: str | Path, rows: list[dict]) -> None:

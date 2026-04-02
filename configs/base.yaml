@@ -18,9 +18,9 @@ training:
   device: cpu
   seed: 42
   weight_decay: 0.0001
-  head_epochs: 5
-  full_epochs: 15
-  scratch_epochs: 30
+  head_epochs: 1
+  full_epochs: 1
+  scratch_epochs: 4
   head_lr: 0.001
   full_lr: 0.0001
   scratch_lr: 0.0003

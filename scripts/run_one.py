@@ -10,7 +10,7 @@ if str(SRC_DIR) not in sys.path:
     sys.path.insert(0, str(SRC_DIR))
 
 from ann_hw2.train import run_experiment
-from ann_hw2.utils import load_yaml, merge_dicts
+from ann_hw2.utils import load_yaml, merge_dicts, resolve_project_paths
 
 
 CONFIG_NAME_MAP = {
@@ -50,6 +50,8 @@ def main() -> None:
         config["training"]["full_epochs"] = args.full_epochs
     if args.device is not None:
         config["training"]["device"] = args.device
+
+    config = resolve_project_paths(config, ROOT)
 
     result = run_experiment(config)
     metrics = result["metrics"]

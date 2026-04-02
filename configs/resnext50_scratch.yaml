@@ -1,0 +1,4 @@
+experiment_name: resnext50_scratch
+model:
+  name: resnext50
+  mode: scratch

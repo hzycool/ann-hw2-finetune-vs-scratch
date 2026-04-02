@@ -1,0 +1,22 @@
+\section{数据集和算例参数介绍}
+
+\subsection{数据集说明}
+
+本文采用 Beans 数据集进行实验。该数据集来自豆类叶片病害识别任务，包含 \texttt{angular\_leaf\_spot}、\texttt{bean\_rust} 和 \texttt{healthy} 三个类别，具有比较明确的农业图像分类背景。数据集官方已经给出了训练集、验证集和测试集划分，因此本文直接沿用原始划分，以避免额外的数据切分对对比结果造成影响。
+
+表~\ref{tab:dataset} 给出了数据划分情况。可以看出，Beans 数据集整体规模不大，这也是本文重点比较从头训练和微调的原因之一：在样本较少时，预训练特征往往更容易体现优势。
+
+\begin{table}[t]
+    \caption{Beans 数据集划分统计}
+    \label{tab:dataset}
+    \centering
+    \resizebox{\columnwidth}{!}{\input{generated/dataset_table.tex}}
+\end{table}
+
+\subsection{预处理与增强}
+
+训练阶段采用 RandomResizedCrop、随机水平翻转和轻量级 ColorJitter，验证和测试阶段使用 Resize 与 CenterCrop。图像归一化采用 ImageNet 常用的均值和标准差，这样做的原因有两点：一是方便与预训练模型保持一致，二是保证 scratch 和 fine-tune 两种方案在输入分布处理上尽可能统一。
+
+\subsection{硬件环境与记录方式}
+
+实验在 CPU 环境下完成，框架为 Python、PyTorch 和 torchvision。由于课程作业强调训练过程和实验比较，因此除了最终准确率外，本文还记录了每组实验的训练总时长、最优验证轮次以及训练过程中的 loss/accuracy 曲线。训练时间采用脚本内部的 wall-clock 统计方式，覆盖完整训练流程，便于在相同硬件条件下直接比较不同策略的成本。

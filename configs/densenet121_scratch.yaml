@@ -1,0 +1,4 @@
+experiment_name: densenet121_scratch
+model:
+  name: densenet121
+  mode: scratch

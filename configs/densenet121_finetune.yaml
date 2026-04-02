@@ -1,0 +1,4 @@
+experiment_name: densenet121_finetune
+model:
+  name: densenet121
+  mode: finetune

@@ -1,0 +1,45 @@
+\section{结果罗列与汇总}
+
+\subsection{整体结果比较}
+
+四组实验的主要结果见表~\ref{tab:main-results}。从整体上看，在本实验设置下，\BestAccModel{} 取得了最高的测试集准确率，为 \BestAccValue{}；而在 Macro-F1 指标上，\BestFOneModel{} 的表现最好，达到 \BestFOneValue{}。这一结果说明，在样本规模较小且类别较少的图像分类任务中，利用预训练特征通常更容易获得较稳定的分类边界。
+
+\begin{table}[t]
+    \caption{四组实验的测试集结果对比}
+    \label{tab:main-results}
+    \centering
+    \resizebox{\columnwidth}{!}{\input{generated/results_table.tex}}
+\end{table}
+
+从训练方式看，微调方案在训练前期通常能更快进入有效收敛区间，而从头训练的初始波动更明显。这一点在实际训练时体会比较直接：如果学习率稍大，随机初始化模型在前几个 epoch 容易出现验证集指标反复波动，而使用预训练权重的模型往往在较早阶段就能得到较高的验证分数。对于 Beans 这样的数据集，这种差异会比较明显。
+
+\subsection{训练时间比较}
+
+表~\ref{tab:time-results} 给出了不同实验组的训练时间统计。就本次实验而言，训练时间最短的模型是 \FastestModel{}，约为 \FastestTime{} 分钟；训练时间最长的是 \SlowestModel{}，约为 \SlowestTime{} 分钟。这里可以看到，训练成本不仅与是否采用微调有关，也与模型结构本身相关。参数规模较大的网络在 CPU 环境下会明显拉长训练时间，因此在课程作业中同时比较精度和时间是有必要的。
+
+\begin{table}[t]
+    \caption{四组实验的训练时间统计}
+    \label{tab:time-results}
+    \centering
+    \resizebox{\columnwidth}{!}{\input{generated/time_table.tex}}
+\end{table}
+
+\subsection{训练曲线与现象分析}
+
+图~\ref{fig:curves-resnext} 和图~\ref{fig:curves-densenet} 展示了两类模型在不同训练方式下的曲线。结合这些曲线可以观察到三个比较典型的现象。第一，微调模型在前几轮的下降速度更快，说明预训练特征确实提供了较好的初始化。第二，从头训练更依赖超参数设置，尤其是在小数据集上，如果增强策略或学习率不合适，验证曲线容易出现起伏。第三，不同模型结构的稳定性并不完全一样，DenseNet 在一些小样本任务上往往表现得更平稳，而 ResNeXt 可能需要更长的时间来发挥结构优势。
+
+\resultfigure{generated/resnext50_scratch_curve.png}{\columnwidth}{ResNeXt50 从头训练的曲线}{fig:curves-resnext-scratch}
+
+\resultfigure{generated/resnext50_finetune_curve.png}{\columnwidth}{ResNeXt50 微调的曲线}{fig:curves-resnext}
+
+\resultfigure{generated/densenet121_scratch_curve.png}{\columnwidth}{DenseNet121 从头训练的曲线}{fig:curves-densenet-scratch}
+
+\resultfigure{generated/densenet121_finetune_curve.png}{\columnwidth}{DenseNet121 微调的曲线}{fig:curves-densenet}
+
+\subsection{混淆矩阵观察}
+
+为了进一步观察模型对三类样本的区分情况，本文还绘制了微调模型在测试集上的混淆矩阵，如图~\ref{fig:cm-resnext} 和图~\ref{fig:cm-densenet} 所示。如果某一类病害样本在纹理和颜色上比较接近，模型就更容易出现相互混淆。结合混淆矩阵可以更具体地看出模型误差主要集中在哪些类别之间，而不是只看整体准确率。
+
+\resultfigure{generated/resnext50_finetune_cm.png}{0.92\columnwidth}{ResNeXt50 微调模型的混淆矩阵}{fig:cm-resnext}
+
+\resultfigure{generated/densenet121_finetune_cm.png}{0.92\columnwidth}{DenseNet121 微调模型的混淆矩阵}{fig:cm-densenet}

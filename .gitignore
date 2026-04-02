@@ -14,12 +14,10 @@ data/
 outputs/runs/
 outputs/checkpoints/
 outputs/tmp/
-!outputs/summary/
-!outputs/summary/.gitkeep
-outputs/summary/*.csv
-outputs/summary/*.png
+outputs/summary/
 
 report/build/
+report/
 report/generated/*.pdf
 report/generated/*.aux
 report/generated/*.bbl
@@ -45,6 +43,8 @@ report/main.synctex.gz
 report/main.pdf
 report/main.xdv
 report/page*_preview*.png
+
+scripts/make_report_assets.py
 
 main.aux
 main.bbl

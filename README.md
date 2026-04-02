@@ -24,8 +24,6 @@ python -m pip install -r requirements.txt
 ```text
 .
 |-- configs/                # 四组实验配置
-|-- outputs/
-|   `-- summary/            # 汇总结果与报告所需素材
 |-- report/                 # LaTeX 报告源码
 |-- scripts/                # 训练与结果汇总脚本
 `-- src/ann_hw2/            # 数据、模型、训练与可视化模块
@@ -58,28 +56,6 @@ python scripts/run_all.py
 python scripts/run_one.py --model resnext50 --mode finetune --head-epochs 1 --full-epochs 1
 ```
 
-## 5. 结果汇总
+## 5. 说明
 
-训练完成后，执行以下命令整理汇总表格与报告素材：
-
-```bash
-python scripts/make_report_assets.py
-```
-
-该脚本会在 `outputs/summary/` 中生成统一的 CSV、表格和图片引用文件，并同步更新 `report/generated/` 下的 LaTeX 片段。
-
-## 6. 报告编译
-
-```bash
-latexmk -pdfxe -cd report/main.tex
-```
-
-如需重新生成参考文献，可执行：
-
-```bash
-latexmk -pdfxe -cd -g report/main.tex
-```
-
-## 7. 仓库地址
-
-提交前请在 `report/meta.tex` 中将仓库地址替换为实际的 GitHub 或 `git.zju.edu.cn` 地址，再重新编译 PDF。
+本仓库主要保留实验代码、配置文件与运行入口，便于直接复现实验过程。训练产生的权重、日志和图像结果默认不纳入代码仓库，可按需要在本地保存。
